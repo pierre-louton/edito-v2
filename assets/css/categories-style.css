@@ -1,0 +1,288 @@
+/*
+ * categories-style.css
+ * Styles de la page de gestion des catégories partenaires (2 niveaux)
+ * Dépend de edito-style.css (variables, reset, layout, boutons, formulaires)
+ * ---------------------------------------------------------------------- */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ARBORESCENCE CATÉGORIES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-cat-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Groupe = un parent + ses enfants */
+.edito-cat-tree__group {
+    background: #fff;
+    border: 1px solid var(--edito-border-light);
+    border-radius: calc(var(--edito-radius) * 1.5);
+    box-shadow: var(--edito-shadow);
+    overflow: hidden;
+}
+
+/* Ligne générique */
+.edito-cat-tree__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    transition: background .12s;
+}
+
+.edito-cat-tree__row:hover {
+    background: var(--edito-surface);
+}
+
+/* Ligne parent (niveau 1) */
+.edito-cat-tree__parent-row {
+    padding-left: 14px;
+}
+
+.edito-cat-tree__parent-row.edito-cat-tree__parent-row--has-children {
+    border-bottom: 1px solid var(--edito-border-light);
+}
+
+/* Bouton dépliage */
+.edito-cat-tree__toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #94a3b8;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    transition: transform .2s, color .15s;
+    line-height: 1;
+}
+
+.edito-cat-tree__toggle:hover { color: var(--edito-text); }
+.edito-cat-tree__toggle--open { transform: rotate(90deg); }
+
+/* Espace sans toggle pour les parents sans enfants */
+.edito-cat-tree__toggle-placeholder {
+    width: 18px;
+    flex-shrink: 0;
+}
+
+/* Icône type (SVG 18×18) */
+.edito-cat-tree__icon {
+    flex-shrink: 0;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+}
+
+/* Nom de la catégorie */
+.edito-cat-tree__name {
+    flex: 1;
+    min-width: 0;
+    font-size: .9rem;
+    font-weight: 600;
+    color: var(--edito-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edito-cat-tree__child-row .edito-cat-tree__name {
+    font-weight: 500;
+}
+
+/* Slug pill */
+.edito-cat-tree__slug {
+    font-size: .72rem;
+    color: #94a3b8;
+    background: var(--edito-surface);
+    border: 1px solid var(--edito-border-light);
+    border-radius: calc(var(--edito-radius) * .7);
+    padding: 2px 8px;
+    flex-shrink: 0;
+    font-family: var(--edito-font);
+    letter-spacing: .01em;
+}
+
+/* Compteur enfants */
+.edito-cat-tree__count {
+    font-size: .72rem;
+    font-weight: 600;
+    color: #64748b;
+    background: var(--edito-border-light);
+    border-radius: 20px;
+    padding: 2px 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Boutons d'action de la ligne */
+.edito-cat-tree__actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity .15s;
+}
+
+.edito-cat-tree__row:hover .edito-cat-tree__actions,
+.edito-cat-tree__row:focus-within .edito-cat-tree__actions {
+    opacity: 1;
+}
+
+/* Bloc enfants */
+.edito-cat-tree__children {
+    overflow: hidden;
+}
+
+/* Ligne enfant (niveau 2) */
+.edito-cat-tree__child-row {
+    padding-left: 52px;
+    background: var(--edito-surface);
+}
+
+.edito-cat-tree__child-row:not(:last-child) {
+    border-bottom: 1px solid var(--edito-border-light);
+}
+
+/* Trait de connexion parent → enfant */
+.edito-cat-tree__connector {
+    flex-shrink: 0;
+    color: var(--edito-border);
+    display: flex;
+    align-items: center;
+    margin-left: -16px;
+    margin-right: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DRAWER LATÉRAL
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .35);
+    backdrop-filter: blur(2px);
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+
+.edito-drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.edito-drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 400px;
+    background: #fff;
+    box-shadow: -4px 0 32px rgba(0, 0, 0, .14);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+.edito-drawer-overlay.open .edito-drawer {
+    transform: translateX(0);
+}
+
+.edito-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--edito-border-light);
+    flex-shrink: 0;
+}
+
+.edito-drawer__title {
+    font-family: var(--edito-font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--edito-text);
+}
+
+.edito-drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 6px;
+    border-radius: var(--edito-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .15s, background .15s;
+}
+
+.edito-drawer__close:hover {
+    color: var(--edito-text);
+    background: var(--edito-border-light);
+}
+
+.edito-drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.edito-drawer__footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--edito-border-light);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   NOTICE D'INFORMATION DANS LE DRAWER
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: var(--edito-radius);
+    font-size: .82rem;
+    line-height: 1.5;
+}
+
+.edito-notice--info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+}
+
+.edito-notice__icon { flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .edito-drawer {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 85vh;
+        transform: translateY(100%);
+        border-radius: calc(var(--edito-radius) * 3) calc(var(--edito-radius) * 3) 0 0;
+    }
+
+    .edito-drawer-overlay.open .edito-drawer {
+        transform: translateY(0);
+    }
+}

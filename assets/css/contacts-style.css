@@ -1,0 +1,728 @@
+/*
+ * contacts-style.css
+ * Styles de la page partenaires : cards, list, tabs, drawer, import CSV
+ * Dépend de edito-style.css (variables, reset, layout, boutons, formulaires)
+ * ---------------------------------------------------------------------- */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ONGLETS (filtre statut)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--edito-border-light);
+    margin-bottom: 24px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.edito-tabs::-webkit-scrollbar { display: none; }
+
+.edito-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: .875rem;
+    font-weight: 500;
+    color: #64748b;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color .15s, border-color .15s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
+    font-family: var(--edito-font);
+}
+
+.edito-tab:hover { color: var(--edito-text); }
+
+.edito-tab--active {
+    color: var(--edito-primary);
+    border-bottom-color: var(--edito-primary);
+    font-weight: 600;
+}
+
+.edito-tab__count {
+    background: var(--edito-border-light);
+    color: #64748b;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.edito-tab--active .edito-tab__count {
+    background: var(--edito-primary);
+    color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BARRE FILTRES + TOGGLE VUE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-contacts-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.edito-contacts-bar__search {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.edito-contacts-bar__search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.edito-contacts-bar__search .edito-input {
+    padding-left: 34px;
+}
+
+.edito-view-toggle {
+    display: flex;
+    border: 1px solid var(--edito-border-light);
+    border-radius: var(--edito-radius);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.edito-view-toggle__btn {
+    background: #fff;
+    border: none;
+    padding: 7px 10px;
+    cursor: pointer;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    transition: background .12s, color .12s;
+}
+
+.edito-view-toggle__btn:not(:last-child) {
+    border-right: 1px solid var(--edito-border-light);
+}
+
+.edito-view-toggle__btn--active,
+.edito-view-toggle__btn:hover {
+    background: var(--edito-surface);
+    color: var(--edito-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   GRILLE DE CARTES PARTENAIRES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.edito-contact-card {
+    background: #fff;
+    border: 1px solid var(--edito-border-light);
+    border-radius: calc(var(--edito-radius) * 1.5);
+    box-shadow: var(--edito-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .2s, transform .2s;
+}
+
+.edito-contact-card:hover {
+    box-shadow: var(--edito-shadow-md);
+    transform: translateY(-2px);
+}
+
+.edito-contact-card--archived {
+    opacity: .65;
+}
+
+.edito-contact-card__body {
+    padding: 18px 18px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Tête de carte : avatar + nom + badges */
+.edito-contact-card__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.edito-contact-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: calc(var(--edito-radius) * 1.2);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--edito-border-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.edito-contact-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.edito-contact-avatar--partenaire {
+    background: #eff6ff;
+    color: var(--edito-primary);
+}
+
+.edito-contact-avatar--default {
+    background: var(--edito-surface);
+    color: #94a3b8;
+}
+
+.edito-contact-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.edito-contact-card__name {
+    font-family: var(--edito-font-heading);
+    font-size: .92rem;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--edito-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edito-contact-card__tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+/* Détails de contact (email, tel, etc.) */
+.edito-contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edito-contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .82rem;
+    color: #64748b;
+    min-width: 0;
+}
+
+.edito-contact-detail__icon {
+    flex-shrink: 0;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+}
+
+.edito-contact-detail__value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.edito-contact-detail__value a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.edito-contact-detail__value a:hover {
+    color: var(--edito-primary);
+    text-decoration: underline;
+}
+
+/* Pied de carte */
+.edito-contact-card__footer {
+    padding: 10px 18px;
+    border-top: 1px solid var(--edito-border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.edito-contact-card__date {
+    font-size: .75rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.edito-contact-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   VUE LISTE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-contacts-list {
+    background: #fff;
+    border: 1px solid var(--edito-border-light);
+    border-radius: calc(var(--edito-radius) * 1.5);
+    box-shadow: var(--edito-shadow);
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.edito-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    transition: background .12s;
+}
+
+.edito-contact-row:not(:last-child) {
+    border-bottom: 1px solid var(--edito-border-light);
+}
+
+.edito-contact-row:hover { background: var(--edito-surface); }
+
+.edito-contact-row--archived { opacity: .6; }
+
+.edito-contact-row__avatar {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: calc(var(--edito-radius) * .8);
+    background: var(--edito-border-light);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .85rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.edito-contact-row__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.edito-contact-row__name {
+    flex: 1;
+    min-width: 0;
+}
+
+.edito-contact-row__name strong {
+    display: block;
+    font-size: .875rem;
+    font-weight: 600;
+    color: var(--edito-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edito-contact-row__name span {
+    font-size: .78rem;
+    color: #94a3b8;
+}
+
+.edito-contact-row__tags {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.edito-contact-row__detail {
+    font-size: .82rem;
+    color: #64748b;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    flex-shrink: 0;
+}
+
+.edito-contact-row__actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity .15s;
+}
+
+.edito-contact-row:hover .edito-contact-row__actions,
+.edito-contact-row:focus-within .edito-contact-row__actions {
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   BADGES CONTACTS
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-badge--partenaire { background: #eff6ff; color: #2563eb; }
+.edito-badge--carousel   { background: #fef9c3; color: #a16207; }
+.edito-badge--archived   { background: #f1f5f9; color: #94a3b8; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COULEURS ICÔNES STAT-CARDS (contacts)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-stat-card__icon--actifs   { color: #22c55e; }
+.edito-stat-card__icon--archives { color: #94a3b8; }
+.edito-stat-card__icon--carousel { color: #f59e0b; }
+.edito-stat-card__icon--total    { color: #8b5cf6; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   EXTENSIONS FORMULAIRES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.edito-form-row .edito-form-group { margin-bottom: 0; }
+
+.edito-form-section { margin-bottom: 24px; }
+
+.edito-form-section__title {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: #94a3b8;
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--edito-border-light);
+}
+
+/* Checkbox / toggle dans les formulaires */
+.edito-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: .875rem;
+    color: var(--edito-text);
+    user-select: none;
+}
+
+.edito-toggle-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--edito-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DRAWER
+   (Dupliqué depuis categories-style.css — à consolider avant déploiement)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .35);
+    backdrop-filter: blur(2px);
+    z-index: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+}
+
+.edito-drawer-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.edito-drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 440px;
+    background: #fff;
+    box-shadow: -4px 0 32px rgba(0, 0, 0, .14);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .25s cubic-bezier(.4, 0, .2, 1);
+}
+
+.edito-drawer--wide { width: 580px; }
+
+.edito-drawer-overlay.open .edito-drawer {
+    transform: translateX(0);
+}
+
+.edito-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--edito-border-light);
+    flex-shrink: 0;
+}
+
+.edito-drawer__title {
+    font-family: var(--edito-font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--edito-text);
+}
+
+.edito-drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 6px;
+    border-radius: var(--edito-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .15s, background .15s;
+}
+
+.edito-drawer__close:hover {
+    color: var(--edito-text);
+    background: var(--edito-border-light);
+}
+
+.edito-drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.edito-drawer__footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--edito-border-light);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   IMPORT CSV — ÉTAPES
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-import-step { display: none; }
+.edito-import-step--active { display: block; }
+
+/* Indicateur de progression */
+.edito-import-steps-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+.edito-import-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--edito-border);
+    transition: background .2s, transform .2s;
+}
+
+.edito-import-step-dot--active {
+    background: var(--edito-primary);
+    transform: scale(1.25);
+}
+
+.edito-import-step-dot--done {
+    background: #22c55e;
+}
+
+.edito-import-step-label {
+    font-size: .78rem;
+    color: #94a3b8;
+    margin-left: 4px;
+}
+
+/* Tableau de mapping colonnes */
+.edito-mapping-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: .85rem;
+}
+
+.edito-mapping-table th {
+    text-align: left;
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: #94a3b8;
+    padding: 0 0 8px;
+    border-bottom: 1px solid var(--edito-border-light);
+}
+
+.edito-mapping-table th:first-child { padding-left: 0; }
+.edito-mapping-table th:last-child  { padding-right: 0; }
+
+.edito-mapping-table td {
+    padding: 8px 8px 8px 0;
+    border-bottom: 1px solid var(--edito-border-light);
+    vertical-align: middle;
+}
+
+.edito-mapping-table tr:last-child td { border-bottom: none; }
+
+.edito-mapping-required {
+    color: #dc2626;
+    margin-left: 2px;
+}
+
+.edito-mapping-preview-values {
+    font-size: .75rem;
+    color: #94a3b8;
+    margin-top: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 140px;
+}
+
+/* Rapport d'import */
+.edito-import-report {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.edito-import-report__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.edito-import-report__stat {
+    background: var(--edito-surface);
+    border: 1px solid var(--edito-border-light);
+    border-radius: var(--edito-radius);
+    padding: 12px;
+    text-align: center;
+}
+
+.edito-import-report__stat-count {
+    font-family: var(--edito-font-heading);
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.edito-import-report__stat--inserted .edito-import-report__stat-count { color: #16a34a; }
+.edito-import-report__stat--updated  .edito-import-report__stat-count { color: #2563eb; }
+.edito-import-report__stat--skipped  .edito-import-report__stat-count { color: #94a3b8; }
+
+.edito-import-report__stat-label {
+    font-size: .75rem;
+    color: #64748b;
+}
+
+.edito-import-report__errors {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-radius: var(--edito-radius);
+    padding: 12px 14px;
+}
+
+.edito-import-report__errors-title {
+    font-size: .78rem;
+    font-weight: 700;
+    color: #dc2626;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.edito-import-report__error-item {
+    font-size: .82rem;
+    color: #b91c1c;
+    padding: 3px 0;
+    border-bottom: 1px solid #fca5a5;
+}
+
+.edito-import-report__error-item:last-child { border-bottom: none; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1200px) {
+    .edito-contacts-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .edito-contacts-grid { grid-template-columns: 1fr; }
+
+    .edito-drawer, .edito-drawer--wide {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 90vh;
+        transform: translateY(100%);
+        border-radius: calc(var(--edito-radius) * 3) calc(var(--edito-radius) * 3) 0 0;
+    }
+
+    .edito-drawer-overlay.open .edito-drawer {
+        transform: translateY(0);
+    }
+
+    .edito-form-row { grid-template-columns: 1fr; }
+
+    .edito-contact-row__detail,
+    .edito-contact-row__tags { display: none; }
+
+    .edito-import-report__stats { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .edito-contacts-bar { flex-direction: column; align-items: stretch; }
+    .edito-contacts-bar__search { min-width: 0; }
+    .edito-view-toggle { align-self: flex-end; }
+}

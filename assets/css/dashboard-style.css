@@ -1,0 +1,14 @@
+/*
+ * dashboard-style.css
+ * Modificateurs spécifiques au dashboard éditorial
+ * Dépend de edito-style.css
+ * ---------------------------------------------------------------------- */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COULEURS ICÔNES STAT-CARDS  (remplace le style="" inline supprimé)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.edito-stat-card__icon--pending { color: #3b82f6; }
+.edito-stat-card__icon--draft   { color: #f59e0b; }
+.edito-stat-card__icon--publish { color: #22c55e; }
+.edito-stat-card__icon--all     { color: #8b5cf6; }
