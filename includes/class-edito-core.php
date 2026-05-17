@@ -251,6 +251,9 @@ class Edito_Core {
             [ 'ce-fonts' ],
             EDITO_VERSION
         );
+		wp_enqueue_style( 'edito-categories', EDITO_ASSETS_URL . 'css/categories-style.css', ['edito-style'], EDITO_VERSION );
+		wp_enqueue_style( 'edito-contacts',   EDITO_ASSETS_URL . 'css/contacts-style.css',   ['edito-style'], EDITO_VERSION );
+		wp_enqueue_style( 'edito-dashboard',  EDITO_ASSETS_URL . 'css/dashboard-style.css',  ['edito-style'], EDITO_VERSION );
 
         // Marquer le style comme "do not optimize" pour LiteSpeed
         wp_style_add_data( 'edito-style', 'litespeed-noptimize', true );
